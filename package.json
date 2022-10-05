@@ -1,0 +1,28 @@
+{
+  "name": "bot_surprise_darshop",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "dependencies": {
+    "@androz2091/discord-invites-tracker": "^1.1.1",
+    "ascii-table": "^0.0.9",
+    "better-sqlite3": "^7.5.3",
+    "canvacord": "^5.2.3",
+    "chalk": "^4.1.2",
+    "dayjs": "^1.11.0",
+    "discord-giveaways": "^5.2.2",
+    "discord-giveaways-dashboard": "^1.0.1",
+    "discord-invites-tracker": "^1.1.2",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "glob": "^7.2.0",
+    "ms": "^2.1.3",
+    "quick.db": "^7.1.3",
+    "remixor-giveaways": "^1.0.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tatouane#0830",
+  "license": "ISC"
+}

@@ -1,0 +1,23 @@
+{
+    "paladium ingot":{
+        "name": "<:ingot_paladium:977227678677631046> │Lingots de paladium",
+        "stack": true,
+        "max": 12,
+        "prize": 1200,
+        "category": "minerais"
+    },
+    "paladium ore":{
+        "name": "<:ingot_paladium:977227678677631046> │Minerais de paladium",
+        "stack": false,
+        "max": 12,
+        "prize": 1500,
+        "category": "minerais"
+    },
+    "test":{
+        "name": "<:ingot_paladium:977227678677631046> │Minerais de titane",
+        "stack": true,
+        "max": 12,
+        "prize": 1000,
+        "category": "minerais"
+    }
+}
