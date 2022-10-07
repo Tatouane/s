@@ -27,7 +27,7 @@ client.giveawaysManager = manager;
 require('./utils/functions')(client);
 
 //---connecting the bot----
-client.login(process.ENV.token);
+client.login(process.ENV.TOKEN);
 const invites = new Discord.Collection();
 const wait = require("timers/promises").setTimeout;
 
