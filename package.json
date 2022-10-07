@@ -24,5 +24,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tatouane#0830",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tatouane/spino-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tatouane/spino-bot/issues"
+  },
+  "homepage": "https://github.com/Tatouane/spino-bot#readme"
 }
