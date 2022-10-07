@@ -72,7 +72,7 @@ manager.on('giveawayEnded', (giveaway, winners) => {
 })
 
 const server = new Server(manager, {
-    PORT: 3000,
+    PORT: 1248,
     USERNAME: "Tatouane",
     PASSWORD: "1234"
 });
@@ -169,6 +169,11 @@ client.on('interactionCreate', interaction => {
                     id: interaction.member.id,
                     allow: ["SEND_MESSAGES", "ADD_REACTIONS"],
                     deny: ["CHANGE_NICKNAME", "SEND_TTS_MESSAGES"]
+                },
+                {
+                    id: interaction.guild.roles.everyone.id,
+                    allow: ["SEND_MESSAGES", "ADD_REACTIONS"],
+                    deny: ["VIEW_CHANNEL"]
                 }
             ]
         }).then(ticket => {
