@@ -8,10 +8,10 @@ module.exports = {
     name: 'take',
     category: 'vendeurs',
     permissions: ['SEND_MESSAGES'],
-    description: "Donne le ping du bot",
+    description: "Prendre une commande",
     ownerOnly: false,
-    usage: 'ping',
-    exemples: [`${config.prefix}ping`],
+    usage: 'take',
+    exemples: [`take`],
     run: (client, message, args) => {
         if (db.get(`commande_${message.channel.id}.take`) === false) return message.reply(`Cette commande est déjà prise par ${db.get(`commande_${message.channel.id}.vendeur`)}`)
         // if (!message.author.roles.has(roles.teamVente)) return;

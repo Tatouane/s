@@ -10,7 +10,7 @@ module.exports = {
         if (message.author.bot) return;
         const prefix = config.prefix;
 
-        // client.xp(message);
+        client.xp(message);
 
         if (message.content.startsWith(prefix)) {
             const args = message.content.slice(prefix.length).trim().split(/ +/g);

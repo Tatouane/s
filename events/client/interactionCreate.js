@@ -29,70 +29,6 @@ module.exports = {
                 }
             }
         }
-        else if (interaction.isButton() && interaction.customID === 'commandes') {
-            client.guilds.cache.get(config.guildID).channels.create(`♻️│${interaction.member.name}`, {
-                type: 'text',
-                parent: '1012072168407977996',
-                permissionOverwrites: [{
-                    id: interaction.member.id,
-                    allow: ['VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY'],
-                    deny: ['MANAGE_CHANNELS']
-                },
-                {
-                    id: roles.TeamVente,
-                    allow: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES', 'MANAGE_MESSAGES', 'READ_MESSAGE_HISTORY'],
-                    deny: []
-                },
-                ],
-            }).then(ticket => {
-                interaction.reply({ content: `Votre ticket de commande a été ouvert dans <#${ticket.id}>`, ephemeral: true })
-
-                let item = "";
-                let quantité = 0;
-                let pseudo = "";
-
-                let embed = new discord.MessageEmbed()
-                    .setDescription(`Que voulez-vous commander ?`)
-                ticket.send({ content: `${interaction.member}<@&${roles.TeamVente}>`, embeds: [embed] }).then(msg => {
-                    msg.channel.awaitMessages({
-                        filter: m => m.author.id === interaction.member.id,
-                        max: 1,
-                        time: 30000,
-                        errors: ['time']
-                    }).then(collected => {
-                        item = collected.first().content;
-                        collected.first().delete();
-                        embed.setDescription(`Quel quantité de cet item voulez-vous acheter ?`);
-                        msg.edit({ embeds: [embed] });
-                        msg.channel.awaitMessages({
-                            filter: m => m.author.id === interaction.member.id,
-                            max: 1,
-                            time: 30000,
-                            errors: ['time']
-                        }).then(collected => {
-                            quantité = parseInt(collected.first().content);
-                            collected.first().delete();
-                            embed.setDescription(`Quel votre pseudo in game ?`);
-                            msg.edit({embeds:[embed]});
-                            msg.channel.awaitMessages({
-                                filter: m => m.author.id === interaction.member.id,
-                                max: 1,
-                                time: 30000,
-                                errors: ['time']
-                            }).then(collected => {
-                                pseudo = collected.first().content;
-                                let prize = quantité * catalogue[item].prize;
-                                collected.first().delete();
-                                embed.setTitle(`Commande de ${interaction.member.name}`);
-                            embed.setDescription(`**Item:** ${catalogue[item].name}\n**Quantité:** ${quantité}${catalogue[item].stack ? 'stack' : ''}\n**Prix:** ${prize}\n**Pseudo IG**: ${pseudo}\n**Statut:** En attente`);
-                            msg.edit({embeds:[embed]});
-                            db.set(`commande_${msg.channel.id}`, { item: `${item}`, prix: prize, quantity: quantité, pseudoIG: pseudo, vendeurs: [], categorie: catalogue[item].category, client: `${interaction.member.id}`, statut: `waiting`, embed: `${msg.id}`})
-                            });
-                        });
-                    });
-                });
-            })
-        }
         if(interaction.isSelectMenu('support')) {
             if (interaction.values.includes('récompense')) {
                 interaction.guild.channels.create(`🎉│${interaction.user.username}#${interaction.user.discriminator}`, {
@@ -104,7 +40,7 @@ module.exports = {
                         deny: ['MANAGE_CHANNELS']
                     },
                     {
-                        id: interaction.guild.roles.everyone.id,
+                        id: '1015369480920109067',
                         allow: [],
                         deny: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES', 'READ_MESSAGE_HISTORY']
                     },
@@ -154,7 +90,7 @@ module.exports = {
                         deny: ['MANAGE_CHANNELS']
                     },
                     {
-                        id: interaction.guild.roles.everyone.id,
+                        id: '1015369480920109067',
                         allow: [],
                         deny: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
@@ -203,7 +139,7 @@ module.exports = {
                         deny: ['MANAGE_CHANNELS']
                     },
                     {
-                        id: interaction.guild.roles.everyone.id,
+                        id: '1015369480920109067',
                         allow: [],
                         deny: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
@@ -247,7 +183,7 @@ module.exports = {
                         deny: ['MANAGE_CHANNELS']
                     },
                     {
-                        id: interaction.guild.roles.everyone.id,
+                        id: '1015369480920109067',
                         allow: [],
                         deny: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES']
                     },
@@ -296,7 +232,7 @@ module.exports = {
                         deny: ['MANAGE_CHANNELS']
                     },
                     {
-                        id: interaction.guild.roles.everyone.id,
+                        id: '1015369480920109067',
                         allow: [],
                         deny: ['MANAGE_CHANNELS', 'VIEW_CHANNEL', 'SEND_MESSAGES']
                     },

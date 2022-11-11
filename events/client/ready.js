@@ -13,7 +13,7 @@ module.exports = {
 
         client.users.cache.forEach(m => {
             if(!db.has(`level_${m.id}`)){
-                db.set(`level_${m.id}`, {xp: 0, xptotal: 0, id: m.id, level: 0})
+                db.set(`level_${m.id}`, {xp: 0, xptotal: 0, id: m.id, level: 0, name: m.tag})
             }
         });
 

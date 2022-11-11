@@ -7,7 +7,7 @@ const gw = require('discord-giveaways')
 const Server = require("discord-giveaways-dashboard").Server;
 const guildInvites = new Map()
 const cConfig = require('./botconfig/channelsConfig.json')
-
+const roles = require('./botconfig/rolesConfig.json')
 //------------------Creating Bot--------------------
 const client = new Discord.Client({ intents: 32767 });
 const manager = new gw.GiveawaysManager(client, {
@@ -27,7 +27,7 @@ client.giveawaysManager = manager;
 require('./utils/functions')(client);
 
 //---connecting the bot----
-client.login(process.env.token);
+client.login(config.token);
 const invites = new Discord.Collection();
 const wait = require("timers/promises").setTimeout;
 
@@ -57,7 +57,7 @@ client.on("guildMemberAdd", async (member) => {
     const newInvites = await member.guild.invites.fetch()
     const oldInvites = invites.get(member.guild.id);
     const invite = newInvites.find(i => i.uses > oldInvites.get(i.code));
-    const logChannel = member.guild.channels.cache.find(channel => channel.id === "976843602942627870");
+    const logChannel = member.guild.channels.cache.find(channel => channel.id === "1020807226593648720");
     if (!db.has(`invites_${invite.inviter.id}`)) db.set(`invites_${invite.inviter.id}`, { total: 1, joined: 1, leave: 0, bonus: 0 })
     db.add(`invites_${invite.inviter.id}.total`, 1)
     db.add(`invites_${invite.inviter.id}.joined`, 1)
@@ -161,6 +161,10 @@ client.on('interactionCreate', interaction => {
     }
 
     if (interaction.isModalSubmit() && interaction.customId === "commander") {
+        let stack = false
+        if(interaction.fields.getTextInputValue('quantite').endsWith('s')||interaction.fields.getTextInputValue('quantite').endsWith('stack')||interaction.fields.getTextInputValue('quantite').endsWith('stacks')){
+            stack = true;
+        }
         interaction.guild.channels.create(interaction.member.user.tag, {
             parent: cConfig.commandes,
             type: "GUILD_TEXT",
@@ -171,18 +175,29 @@ client.on('interactionCreate', interaction => {
                     deny: ["CHANGE_NICKNAME", "SEND_TTS_MESSAGES"]
                 },
                 {
-                    id: interaction.guild.roles.everyone.id,
+                    id: '1016401724178710628',
+                    allow: ["SEND_MESSAGES", "ADD_REACTIONS", "MANAGE_CHANNELS"],
+                    deny: ["CHANGE_NICKNAME", "SEND_TTS_MESSAGES"]
+                },
+                {
+                    id: '1016400980260159579',
+                    allow: ["SEND_MESSAGES", "ADD_REACTIONS", "MANAGE_CHANNELS"],
+                    deny: ["CHANGE_NICKNAME", "SEND_TTS_MESSAGES"]
+                },
+                {
+                    id: '1015369480920109067',
                     allow: ["SEND_MESSAGES", "ADD_REACTIONS"],
                     deny: ["VIEW_CHANNEL"]
                 }
             ]
         }).then(ticket => {
+            let quantity = stack ? parseInt(interaction.fields.getTextInputValue('quantite'))*64 : parseInt(interaction.fields.getTextInputValue('quantite'));
             let embed = new Discord.MessageEmbed()
                 .setTitle(`Commande de ${interaction.member.user.tag}`)
                 .setColor('RED')
-                .setDescription(`Item: \`${interaction.fields.getTextInputValue('item')}\`\nPrix unitaire: \`${interaction.fields.getTextInputValue('prix')}$\`\nQuantité: \`${interaction.fields.getTextInputValue('quantite')}\`\nPrix total: \`${interaction.fields.getTextInputValue('prix') * interaction.fields.getTextInputValue('quantite')}\`\nPseudo IG: \`${interaction.fields.getTextInputValue('pseudo')}\`\nStatut: 🕐 En attente`)
-            ticket.send({ embeds: [embed] }).then(msg =>{
-                db.set(`commande_${ticket.id}`, {take: false, client: interaction.member.user.username, embed: msg.id, item: interaction.fields.getTextInputValue('item'), prix: interaction.fields.getTextInputValue('prix'), quantity: interaction.fields.getTextInputValue('quantite'), pseudo: interaction.fields.getTextInputValue('pseudo')})
+                .setDescription(`Item: \`${interaction.fields.getTextInputValue('item')}\`\nPrix unitaire: \`${interaction.fields.getTextInputValue('prix')}$\`\nQuantité: \`${parseInt(interaction.fields.getTextInputValue('quantite'))}${stack ? 's':' '}\`\nPrix total: \`${quantity * interaction.fields.getTextInputValue('prix')}$\`\nPseudo IG: \`${interaction.fields.getTextInputValue('pseudo')}\`\nStatut: 🕐 En attente`)
+            ticket.send({ embeds: [embed], content: `<@${interaction.member.id}>/<@&1016401724178710628>/<@&1016400980260159579>` }).then(msg =>{
+                db.set(`commande_${ticket.id}`, {take: false, client: interaction.member.user.username, embed: msg.id, item: interaction.fields.getTextInputValue('item'), prix: interaction.fields.getTextInputValue('prix'), quantity: quantity, pseudo: interaction.fields.getTextInputValue('pseudo')})
             })
         })
     }

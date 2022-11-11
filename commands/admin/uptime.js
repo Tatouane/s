@@ -9,6 +9,7 @@ module.exports = {
     usage:`uptime`,
     exemples: [`uptime`],
     run: (client, message, args) => {
+        // console.log(client.guilds.cache.get('1015369480920109067').roles.everyone.id)
         const ToTalSeconds = (client.uptime / 1000);
         const Days = Math.floor(ToTalSeconds / 86400);
         const Hours = Math.floor(ToTalSeconds / 3600);

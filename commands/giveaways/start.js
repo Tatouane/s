@@ -9,9 +9,9 @@ module.exports = {
     permissions: ['ADMINISTRATOR'],
     category: 'giveaways',
     ownerOnly: false,
-    description: "Envoyer un embed personnalisé",
-    usage: 'embed <titre> <description> <footer>',
-    exemples: 'embed Ceci_est_un_titre Ceci_est_une_description Ceci_est_un_footer',
+    description: "Créer un giveaway",
+    usage: 'start',
+    exemples: 'start',
     run: (client, message) => {
         let prize = "";
         let gagnants = 0;
@@ -107,6 +107,7 @@ module.exports = {
                                 })
                             }
                             else if(response.content.toUpperCase() == "ROLE"){
+                                collected.first().delete();
                                 embed.setDescription(`Veuillez donner l'id du rôle nécéssaire.`)
                                 msg.edit({embeds:[embed]})
                                 message.channel.awaitMessages({
@@ -140,7 +141,7 @@ module.exports = {
                                                 duration: ms(time),
                                                 winnerCount: gagnants,
                                                 prize,
-                                                condition: `Avoir le rôle <@${roleId}>`,
+                                                condition: `Avoir le rôle <@&${roleId}>`,
                                                 exemptMembers: (member, giveaway) => !member.roles.has(roleId),
                                                 messages: {
                                                     giveaway: '🎉 **GIVEAWAY** 🎉',

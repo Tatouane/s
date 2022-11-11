@@ -12,16 +12,16 @@ module.exports = {
     exemples: [`rank @Tatouane`, 'rank'],
     run: (client, message, args) => {
         var user = message.mentions.users.first() || message.author;
-        var level = db.get(`${user.id}`) || 0;
-        var currentxp = db.get(`${user.id}`) || 0;
+        var level = db.get(`level_${user.id}.level`)|| 0;
+        var currentxp = db.get(`level_${user.id}.xp`)|| 0;
         var xpNeeded = level * 100 || 100;
         const rankcard = new Canvacord.Rank()
             .setAvatar(user.displayAvatarURL({ format: 'png', dynamic: true }))
-            .setCurrentXP(db.get(`${user.id}`) || 0)
+            .setCurrentXP(currentxp)
             .setRequiredXP(xpNeeded)
             .setStatus("online")
-            .setLevel(db.get(`${user.id}`) || 0)
-            .setRank(db.sort(), 'Position', false)
+            .setLevel(level)
+            .setRank(1, 'Position', false)
             .setProgressBar("#a81d16", "COLOR")
             .setOverlay("#000000")
             .setUsername(user.username)
@@ -43,15 +43,15 @@ module.exports = {
     ],
     runSlash: (client, interaction) => {
         var user = interaction.options.getUser('membre') || interaction.member;
-        var level = db.get(`${user.id}`) || 0;
-        var currentxp = db.get(`${user.id}`) || 0;
+        var level = db.get(`level_${user.id}`)|| 0;
+        var currentxp = db.get(`level_${user.id}`)|| 0;
         var xpNeeded = level * 100 || 100;
         const rankcard = new Canvacord.Rank()
             .setAvatar(user.displayAvatarURL({ format: 'png', dynamic: true }))
-            .setCurrentXP(db.get(`${user.id}`) || 0)
+            .setCurrentXP(currentxp)
             .setRequiredXP(xpNeeded)
             .setStatus("online")
-            .setLevel(db.get(`${user.id}`) || 0)
+            .setLevel(db.get(`level_${user.id}.level`)|| 0)
             .setRank(1, 'RANK', false)
             .setProgressBar("#a81d16", "COLOR")
             .setOverlay("#000000")
